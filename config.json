@@ -1,3 +1,4 @@
 {
-  "apiKey" : ""
+	"instagramApiKey": "",
+	"mongodbUrl": ""
 }
