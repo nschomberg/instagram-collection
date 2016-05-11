@@ -30,7 +30,7 @@ app.get('/api/collections', function(request, response) {
 	Collection.find({}, 'tag', function (err, collections) {
 	  if (err) return err;
 		response.json({
-			message: collections
+			collections: collections
 		});
 	});
 });
@@ -40,27 +40,31 @@ app.get('/api/content', function(request, response) {
 
 	var Collection = require('./lib/models/content');
 
-	Collection.find({"_collection" : request.query.collection}, 'link created_time _collection', function (err, content) {
+	Collection.find({"_collection" : request.query.collection}, 'link created_time images _collection', function (err, content) {
 	  if (err) return err;
 		response.json({
-			message: content
+			content: content
 		});
 	});
 });
 
 app.post('/api/create', function(request, response) {
-	console.dir(request.query);
+	//console.dir(request.body);
+	//console.dir(typeof request.body);
+
+
 
 	var instagram = require('./lib/instagram-api');
 
 	instagram
 		.collect(request.query.tag)
-		.then(function(){
+		.then(function(result){
 			response.json({
-				message: 'request'
+				message: result
 			});
 		});
 });
+
 
 app.listen(app.get('port'), function() {
 	console.log('Node app is running on port', app.get('port'));

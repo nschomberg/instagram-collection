@@ -1,5 +1,22 @@
-<h1>Collection: {}</h1>
-<h2>View {}</h2>
+<!--<h1>Collection: {}</h1>
+<h2>View {}</h2>-->
 
 <a href="#all" class="btn btn-warning btn-lg">View All</a>
 <a href="#/" class="btn btn-danger btn-lg">Delete</a>
+
+
+<div ng-if="isLoading">
+  <h1>LOADING</h1>
+</div>
+<div ng-if="isError">
+  <h1>ERROR</h1>
+</div>
+<div ng-if="!isLoading">
+  <div class="row">
+    <div class="col-xs-6 col-sm-3 col-md-2" ng-repeat="content in contents">
+      <div class="thumbnail">
+        <img src="{{content.images.thumbnail.url}}">
+      </div>
+    </div>
+  </div>
+</div>

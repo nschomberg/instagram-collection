@@ -1,5 +1,14 @@
-<h1>Collections</h1>
-<h2>View All</h2>
+<h1>Collections - View All</h1>
+<h2><a href="#create" class="btn btn-primary btn-lg">Create New Collection</a></h2>
 
-<a href="#create" class="btn btn-primary btn-lg">Create New Collection</a>
-<a href="#view" class="btn btn-primary btn-lg">View</a>
+<div class="row">
+  <div class="col-sm-6 col-md-4" ng-repeat="collection in collections">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>{{collection.tag}}</h3>
+        <p>Hello</p>
+        <p><a href="#view?collection={{collection._id}}" class="btn btn-primary" role="button">View</a></p>
+      </div>
+    </div>
+  </div>
+</div>

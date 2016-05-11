@@ -30,16 +30,92 @@ instagramApp.controller('mainController', function($scope) {
 });
 
 //View All Controller
-instagramApp.controller('viewAllController', function($scope) {
+instagramApp.controller('viewAllController', function($scope,$http) {
 	$scope.pageClass = 'page-view-all';
+	$scope.isLoading = true;
+
+	$scope.collections = [];
+
+	// Here we define the init function for the controller
+	var doInit = function(ctrl){
+		// Make a GET request to the API to get all collections
+		$http({
+			method: 'GET',
+			url: '/api/collections'
+		}).then(function success(response) { // this callback will be called asynchronously when the response is available
+				console.dir(response);
+				//Assign the repsonse's collection data to our scope
+				$scope.collections = response.data.collections;
+				//
+			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
+				console.dir(response);
+
+			});
+	};
+
+	//Initialize controller on load
+	doInit(this);
+
+
 });
 
 //View Single Controller
-instagramApp.controller('viewSingleController', function($scope) {
+instagramApp.controller('viewSingleController', function($scope,$http,$location) {
 	$scope.pageClass = 'page-view-single';
+	$scope.isLoading = true;
+	$scope.isError = false;
+
+	$scope.contents = [];
+	var collectionId = $location.search().collection;
+	console.log(collectionId);
+	// Here we define the init function for the controller
+	var doInit = function(ctrl){
+		// Make a GET request to the API to get all collections
+		$http({
+			method: 'GET',
+			url: '/api/content?collection=' + collectionId
+		}).then(function success(response) { // this callback will be called asynchronously when the response is available
+				console.dir(response);
+				//Assign the repsonse's collection data to our scope
+				$scope.contents = response.data.content;
+				$scope.isLoading = false;
+				$scope.isError = false;
+				//
+			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
+				console.dir(response);
+				$scope.isLoading = false;
+				$scope.isError = true;
+
+			});
+	};
+
+	//Initialize controller on load
+	doInit(this);
 });
 
 //Create Controller
-instagramApp.controller('createController', function($scope) {
+instagramApp.controller('createController', function($scope,$http) {
 	$scope.pageClass = 'page-create';
+
+	$scope.tag = "default";
+
+	// Here we define the init function for the controller
+	$scope.create = function(){
+		console.log($scope.tag);
+		// Make a GET request to the API to get all collections
+		$http.post('/api/create?tag='+$scope.tag, {tag:$scope.tag}).then(function success(response) { // this callback will be called asynchronously when the response is available
+				console.dir(response);
+				//Assign the repsonse's collection data to our scope
+				//$scope.contents = response.data.content;
+				alert('done');
+				$scope.isLoading = false;
+				$scope.isError = false;
+				//
+			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
+				console.dir(response);
+				$scope.isLoading = false;
+				$scope.isError = true;
+
+			});
+	};
 });
