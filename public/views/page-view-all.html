@@ -1,7 +1,13 @@
 <h1>Collections - View All</h1>
 <h2><a href="#create" class="btn btn-primary btn-lg">Create New Collection</a></h2>
 
-<div class="row">
+<div ng-if="isLoading" class="loader">
+  <i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>
+</div>
+<div ng-if="isError">
+  <h1>ERROR</h1>
+</div>
+<div class="row" ng-if="!isLoading">
   <div class="col-sm-6 col-md-4" ng-repeat="collection in collections">
     <div class="thumbnail">
       <div class="caption">

@@ -33,8 +33,10 @@ instagramApp.controller('mainController', function($scope) {
 instagramApp.controller('viewAllController', function($scope,$http) {
 	$scope.pageClass = 'page-view-all';
 	$scope.isLoading = true;
+	$scope.isError = false;
 
 	$scope.collections = [];
+
 
 	// Here we define the init function for the controller
 	var doInit = function(ctrl){
@@ -46,10 +48,13 @@ instagramApp.controller('viewAllController', function($scope,$http) {
 				console.dir(response);
 				//Assign the repsonse's collection data to our scope
 				$scope.collections = response.data.collections;
+				$scope.isLoading = false;
+				$scope.isError = false;
 				//
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
 				console.dir(response);
-
+				$scope.isLoading = false;
+				$scope.isError = true;
 			});
 	};
 
@@ -102,8 +107,14 @@ instagramApp.controller('createController', function($scope,$http) {
 	// Here we define the init function for the controller
 	$scope.create = function(){
 		console.log($scope.tag);
-		// Make a GET request to the API to get all collections
-		$http.post('/api/create?tag='+$scope.tag, {tag:$scope.tag}).then(function success(response) { // this callback will be called asynchronously when the response is available
+		$http.defaults.headers.post["Content-Type"] = "application/json";
+		$http({
+			method: 'POST',
+			url: '/api/create',
+			data: {
+				'tag': $scope.tag
+			}
+		}).then(function success(response) { // this callback will be called asynchronously when the response is available
 				console.dir(response);
 				//Assign the repsonse's collection data to our scope
 				//$scope.contents = response.data.content;
@@ -119,3 +130,11 @@ instagramApp.controller('createController', function($scope,$http) {
 			});
 	};
 });
+
+/*instagramApp.directive('loader', function() {
+  return {
+		scope : true,
+    template: '<div ng-if="isLoading" class="loader"><i class="fa fa fa-gear fa-spin" aria-hidden="true"></i></div>'
+  };
+});
+*/

@@ -56,3 +56,14 @@ html {}
 	from 	{ opacity: 1; }
 	to 		{ opacity: 0; }
 }
+
+/* Loader */
+.loader {
+	font-size: 10em;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+	-webkit-transform: -webkit-translate(-50%, -50%);
+	-moz-transform: -moz-translate(-50%, -50%);
+}

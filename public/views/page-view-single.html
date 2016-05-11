@@ -4,9 +4,8 @@
 <a href="#all" class="btn btn-warning btn-lg">View All</a>
 <a href="#/" class="btn btn-danger btn-lg">Delete</a>
 
-
-<div ng-if="isLoading">
-  <h1>LOADING</h1>
+<div ng-if="isLoading" class="loader">
+  <i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>
 </div>
 <div ng-if="isError">
   <h1>ERROR</h1>

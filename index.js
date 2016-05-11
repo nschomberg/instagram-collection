@@ -26,41 +26,64 @@ app.get('/api/collections', function(request, response) {
 	console.dir(request.query);
 
 	var Collection = require('./lib/models/collection');
+	var query = {};
+	var queryFields = 'tag';
 
-	Collection.find({}, 'tag', function (err, collections) {
-	  if (err) return err;
-		response.json({
-			collections: collections
+	Collection.find(query, queryFields)
+		.then(function (queryResult) {
+			response.json({
+				collections: queryResult
+			});
+		})
+		.catch(function (queryError) {
+			response.json({
+				message: queryError
+			});
 		});
-	});
 });
 
 app.get('/api/content', function(request, response) {
 	console.dir(request.query);
 
 	var Collection = require('./lib/models/content');
+	var collectionId = request.query.collection;
+	var query = {"_collection" : collectionId};
+	var queryFields = 'link created_time images _collection';
 
-	Collection.find({"_collection" : request.query.collection}, 'link created_time images _collection', function (err, content) {
-	  if (err) return err;
-		response.json({
-			content: content
+	Collection.find(query, queryFields)
+		.then(function (queryResult) {
+			response.json({
+				content: queryResult
+			});
+		})
+		.catch(function (queryError) {
+			response.json({
+				message: queryError
+			});
 		});
-	});
 });
 
 app.post('/api/create', function(request, response) {
-	//console.dir(request.body);
-	//console.dir(typeof request.body);
+
+	console.dir(request);
+	console.dir(request.body);
+	console.dir(typeof request.body);
+	console.dir(typeof request);
 
 
 
 	var instagram = require('./lib/instagram-api');
 
-	instagram
-		.collect(request.query.tag)
+	instagram.collect(request.query.tag)
 		.then(function(result){
 			response.json({
-				message: result
+				message: 'doof'
+			});
+		})
+		.catch(function(error){
+			response.json({
+				error : error,
+				message: 'Oops, something went wrong'
 			});
 		});
 });
