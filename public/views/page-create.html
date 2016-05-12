@@ -7,8 +7,6 @@
   <i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>
 </div>
 <div ng-if="!isLoading">
-  <input ng-model="tag" ></input>
-  <a href="" ng-click="create()" class="btn btn-success btn-lg">Create</a>
+  <input ng-model="tag.value" placeholder="Enter a tag"></input>
+  <a href=""  ng-click="create()" class="btn btn-success btn-lg">Create</a>
 </div>
-
-{{isLoading}}

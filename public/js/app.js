@@ -48,7 +48,7 @@ instagramApp.controller('viewAllController', function($scope, $http) {
 			.then(function success(response) { // this callback will be called asynchronously when the response is available
 				console.dir(response);
 				//Assign the repsonse's collection data to our scope
-				$scope.collections = response.data.collections;
+				$scope.collections = response.data.result;
 				$scope.isLoading = false;
 				$scope.isError = false;
 				//
@@ -72,6 +72,7 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 	$scope.isError = false;
 
 	$scope.contents = [];
+	$scope.selectedContent = {};
 	var collectionId = $location.search()
 		.collection;
 	console.log(collectionId);
@@ -80,12 +81,12 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 		// Make a GET request to the API to get all collections
 		$http({
 				method: 'GET',
-				url: '/api/content?collection=' + collectionId
+				url: '/api/collections?collection=' + collectionId
 			})
 			.then(function success(response) { // this callback will be called asynchronously when the response is available
 				console.dir(response);
 				//Assign the repsonse's collection data to our scope
-				$scope.contents = response.data.content;
+				$scope.contents = response.data.result;
 				$scope.isLoading = false;
 				$scope.isError = false;
 				//
@@ -105,21 +106,18 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 instagramApp.controller('createController', function($scope, $http, $window) {
 	$scope.pageClass = 'page-create';
 	$scope.isLoading = false;
-	$scope.tag = "default";
+	$scope.tag = {};
 
 	// Here we define the init function for the controller
 	$scope.create = function() {
 		$scope.isLoading = true;
-		$scope.$apply();
 
-		console.log($scope.tag);
-		console.log($scope.isLoading);
 		$http.defaults.headers.post["Content-Type"] = "application/json";
 		$http({
 				method: 'POST',
 				url: '/api/create',
 				data: {
-					'tag': $scope.tag
+					'tag': $scope.tag.value
 				}
 			})
 			.then(function success(response) { // this callback will be called asynchronously when the response is available
@@ -127,7 +125,7 @@ instagramApp.controller('createController', function($scope, $http, $window) {
 				$scope.isLoading = false;
 				$scope.isError = false;
 				//Redirect to the view page for the newly created collection
-				$window.location.href = '/#view?collection=' + response.data.collection;
+				$window.location.href = '/#view?collection=' + response.data.result;
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
 				console.dir(response);
 				$scope.isLoading = false;
