@@ -6,7 +6,7 @@
  */
 
 module.exports = function(grunt) {
-	var jsFiles = ['*.js', 'lib/**/*.js', 'public/js/**/*.js', '*.json'];
+	var jsFiles = ['*.js', 'lib/**/*.js', 'public/js/*.js', '*.json'];
 	grunt.initConfig({
 		// Fetch package info in case we want to reuse it down the line
 		pkg: grunt.file.readJSON('package.json'),

@@ -30,7 +30,7 @@ instagramApp.controller('mainController', function($scope) {
 });
 
 //View All Controller
-instagramApp.controller('viewAllController', function($scope,$http) {
+instagramApp.controller('viewAllController', function($scope, $http) {
 	$scope.pageClass = 'page-view-all';
 	$scope.isLoading = true;
 	$scope.isError = false;
@@ -39,12 +39,13 @@ instagramApp.controller('viewAllController', function($scope,$http) {
 
 
 	// Here we define the init function for the controller
-	var doInit = function(ctrl){
+	var doInit = function(ctrl) {
 		// Make a GET request to the API to get all collections
 		$http({
-			method: 'GET',
-			url: '/api/collections'
-		}).then(function success(response) { // this callback will be called asynchronously when the response is available
+				method: 'GET',
+				url: '/api/collections'
+			})
+			.then(function success(response) { // this callback will be called asynchronously when the response is available
 				console.dir(response);
 				//Assign the repsonse's collection data to our scope
 				$scope.collections = response.data.collections;
@@ -65,21 +66,23 @@ instagramApp.controller('viewAllController', function($scope,$http) {
 });
 
 //View Single Controller
-instagramApp.controller('viewSingleController', function($scope,$http,$location) {
+instagramApp.controller('viewSingleController', function($scope, $http, $location) {
 	$scope.pageClass = 'page-view-single';
 	$scope.isLoading = true;
 	$scope.isError = false;
 
 	$scope.contents = [];
-	var collectionId = $location.search().collection;
+	var collectionId = $location.search()
+		.collection;
 	console.log(collectionId);
 	// Here we define the init function for the controller
-	var doInit = function(ctrl){
+	var doInit = function(ctrl) {
 		// Make a GET request to the API to get all collections
 		$http({
-			method: 'GET',
-			url: '/api/content?collection=' + collectionId
-		}).then(function success(response) { // this callback will be called asynchronously when the response is available
+				method: 'GET',
+				url: '/api/content?collection=' + collectionId
+			})
+			.then(function success(response) { // this callback will be called asynchronously when the response is available
 				console.dir(response);
 				//Assign the repsonse's collection data to our scope
 				$scope.contents = response.data.content;
@@ -99,29 +102,32 @@ instagramApp.controller('viewSingleController', function($scope,$http,$location)
 });
 
 //Create Controller
-instagramApp.controller('createController', function($scope,$http) {
+instagramApp.controller('createController', function($scope, $http, $window) {
 	$scope.pageClass = 'page-create';
-
+	$scope.isLoading = false;
 	$scope.tag = "default";
 
 	// Here we define the init function for the controller
-	$scope.create = function(){
+	$scope.create = function() {
+		$scope.isLoading = true;
+		$scope.$apply();
+
 		console.log($scope.tag);
+		console.log($scope.isLoading);
 		$http.defaults.headers.post["Content-Type"] = "application/json";
 		$http({
-			method: 'POST',
-			url: '/api/create',
-			data: {
-				'tag': $scope.tag
-			}
-		}).then(function success(response) { // this callback will be called asynchronously when the response is available
+				method: 'POST',
+				url: '/api/create',
+				data: {
+					'tag': $scope.tag
+				}
+			})
+			.then(function success(response) { // this callback will be called asynchronously when the response is available
 				console.dir(response);
-				//Assign the repsonse's collection data to our scope
-				//$scope.contents = response.data.content;
-				alert('done');
 				$scope.isLoading = false;
 				$scope.isError = false;
-				//
+				//Redirect to the view page for the newly created collection
+				$window.location.href = '/#view?collection=' + response.data.collection;
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
 				console.dir(response);
 				$scope.isLoading = false;
@@ -130,11 +136,3 @@ instagramApp.controller('createController', function($scope,$http) {
 			});
 	};
 });
-
-/*instagramApp.directive('loader', function() {
-  return {
-		scope : true,
-    template: '<div ng-if="isLoading" class="loader"><i class="fa fa fa-gear fa-spin" aria-hidden="true"></i></div>'
-  };
-});
-*/

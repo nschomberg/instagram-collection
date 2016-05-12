@@ -4,7 +4,7 @@
 <a href="#all" class="btn btn-warning btn-lg">View All</a>
 <a href="#/" class="btn btn-danger btn-lg">Delete</a>
 
-<div ng-if="isLoading" class="loader">
+<div ng-if="isLoading" class="loader center">
   <i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>
 </div>
 <div ng-if="isError">
@@ -17,5 +17,8 @@
         <img src="{{content.images.thumbnail.url}}">
       </div>
     </div>
+  </div>
+  <div ng-if="contents.length == 0" class="empty center">
+    Empty :(
   </div>
 </div>
