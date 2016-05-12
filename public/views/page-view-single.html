@@ -12,38 +12,72 @@
 </div>
 <div ng-if="!isLoading">
   <div class="row">
-    <a href="" data-toggle="modal" data-target="#myModal" ng-repeat="content in contents" ng-click="selectedContent.content = content">
-      <div class="col-xs-6 col-sm-3 col-md-2"  >
-        <div class="thumbnail">
-          <img src="{{content.images.thumbnail.url}}">
+    <div class="col-xs-6 col-sm-3 col-md-2 tile-container" ng-repeat="content in contents" >
+      <a href="" data-toggle="modal" data-target="#myModal" ng-click="selectedContent.content = content">
+        <div class="tile-content">
+          <img src="{{content.images.low_resolution.url}}" class="img-responsive">
         </div>
-      </div>
-    </a>
+        <div class="dummy">
+        </div>
+      </a>
+    </div>
+
   </div>
   <div ng-if="contents.length == 0" class="empty center">
     Empty :(
   </div>
-  <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <img src="{{selectedContent.content.images.low_resolution.url}}"/>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog collection-modal" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        </div>
+        <!-- Body -->
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-7">
+              <img src="{{selectedContent.content.images.standard_resolution.url}}" class="img-responsive"/>
+            </div>
+            <div class="col-md-5">
+              <div class="user-tile">
+                <div class="row">
+                  <div class="col-md-4">
+                    <img src="{{selectedContent.content.user.profile_picture}}" class="img-responsive"/>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="user-full-name">
+                      {{selectedContent.content.user.full_name}}
+                    </div>
+                    <div class="user-name">
+                      {{selectedContent.content.user.username}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tags-tile">
+                <span class="label-tag"  ng-repeat="tag in selectedContent.content.tags">
+                  <span class="label label-primary">
+                    {{tag}}
+                  </span>
+                  &nbsp;
+                </span>
+              </div>
+              <div class="caption-tile">
+                {{selectedContent.content.caption.text}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /Body -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <a href="{{selectedContent.content.link}}" class="btn btn-primary" target="_blank">Visit Page</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <!-- /Modal -->
 </div>
