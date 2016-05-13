@@ -1,3 +1,4 @@
 {
-  "apiKey" : ""
+	"instagramApiKey": "3212451964.1677ed0.3df09055dce04fd48eab46209a267ea7",
+	"mongodbUrl": "mongodb://instagram-collection:mongoPW@ds017852.mlab.com:17852/instagram-collection"
 }

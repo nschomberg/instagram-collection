@@ -1,0 +1,12 @@
+<h1>Create</h1>
+<h2>New Collection</h2>
+
+<a href="#all" class="btn btn-success btn-lg">View All</a>
+<br/>
+<div ng-if="isLoading" class="loader center">
+  <i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>
+</div>
+<div ng-if="!isLoading">
+  <input ng-model="tag.value" placeholder="Enter a tag"></input>
+  <a href=""  ng-click="create()" class="btn btn-success btn-lg">Create</a>
+</div>
