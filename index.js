@@ -33,7 +33,9 @@ app.get('/api/collections', function(request, response) {
 
 //API: POST new collection
 app.post('/api/create', function(request, response) {
+	console.log('ENTER');
 	database.createCollection(request, response);
+	console.log('EXIT');
 });
 
 //Spin up server
