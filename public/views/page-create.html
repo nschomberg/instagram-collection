@@ -1,12 +1,58 @@
-<h1>Create</h1>
-<h2>New Collection</h2>
-
-<a href="#all" class="btn btn-success btn-lg">View All</a>
+<h1>Collections <small> Create</small></h1>
+<back-button></back-button>
 <br/>
 <div ng-if="isLoading" class="loader center">
   <i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>
 </div>
 <div ng-if="!isLoading">
-  <input ng-model="tag.value" placeholder="Enter a tag"></input>
-  <a href=""  ng-click="create()" class="btn btn-success btn-lg">Create</a>
+  <!-- DEBUG
+  <pre>Start Date is: <em>{{startDate | date:'shortTime' }}, {{startDate | date:'fullDate' }}</em></pre>
+  <pre>End Date is: <em>{{endDate | date:'shortTime' }}, {{endDate | date:'fullDate' }}</em></pre>-->
+
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <h2>Select</h2>
+      <input class="create-input-tag" ng-model="tag.value" class="form-control" placeholder="Enter a tag"></input>
+    </div>
+    <div class="col-md-4 text-center">
+      <h2>From</h2>
+      <datetimepicker ng-model="startDate"
+      hour-step="hourStep"
+      minute-step="minuteStep"  show-meridian="showMeridian"
+      date-format="{{format}}" date-options="dateOptions"
+      date-disabled="disabled(date, mode)"
+      datepicker-append-to-body="false"
+      readonly-date="false"
+      hidden-time="false"
+      hidden-date="false"
+      name="start"
+      show-spinners="true"
+      readonly-time="false"
+      date-opened="startOpened"
+      ></datetimepicker>
+    </div>
+    <div class="col-md-4 text-center">
+      <h2>Until</h2>
+      <datetimepicker ng-model="endDate"
+      hour-step="hourStep"
+      minute-step="minuteStep"  show-meridian="showMeridian"
+      date-format="{{format}}" date-options="dateOptions"
+      date-disabled="disabled(date, mode)"
+      datepicker-append-to-body="false"
+      readonly-date="false"
+      hidden-time="false"
+      hidden-date="false"
+      name="end"
+      show-spinners="true"
+      readonly-time="false"
+      date-opened="endOpened"
+      >
+      </datetimepicker>
+    </div>
+    <div class="col-md-2 col-md-offset-5 text-center">
+      <div class="create-button">
+        <h2><a href=""  ng-click="create()" class="btn btn-primary btn-lg">Create</a></h2>
+      </div>
+    </div>
+  </div>
 </div>

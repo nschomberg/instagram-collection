@@ -1,5 +1,9 @@
 'use strict';
 
+//Load the Database Service class
+let database = require('./lib/database-service.js');
+database.init();
+
 //Set up the app to use the Express module
 let express = require('express');
 let app = express();
@@ -10,10 +14,6 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 app.use(bodyParser.json());
-
-//Load the Database Service class
-let database = require('./lib/database-service.js');
-database.init();
 
 //Set up the port: 5000 unless otherwise defined (eg Heroku process)
 app.set('port', (process.env.PORT || 5000));

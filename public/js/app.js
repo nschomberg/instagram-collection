@@ -1,12 +1,11 @@
-var instagramApp = angular.module('instagramApp', ['ngRoute', 'ngAnimate']);
-
+var instagramApp = angular.module('instagramApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 
 //Here, let's define some routes for the single page-app
 instagramApp.config(function($routeProvider) {
 	$routeProvider
 		.when('/', {
 			templateUrl: 'views/page-home.html',
-			controller: 'mainController'
+			controller: 'homeController'
 		})
 		.when('/all', {
 			templateUrl: 'views/page-view-all.html',
@@ -24,8 +23,21 @@ instagramApp.config(function($routeProvider) {
 
 //Here we define a couple of different controllers
 
-//Main Controller
-instagramApp.controller('mainController', function($scope) {
+//Nav controller handles logic in the navbar
+instagramApp.controller('navController', function($scope, $location) {
+	//Determine if the current nav element should be active based on the current URL
+	$scope.isActive = function(paths) {
+		for (var i = 0; i < paths.length; i++) {
+			if (paths[i] == $location.path()) {
+				return true;
+			}
+		}
+		return false;
+	};
+});
+
+//Home page controller
+instagramApp.controller('homeController', function($scope) {
 	$scope.pageClass = 'page-home';
 });
 
@@ -34,7 +46,6 @@ instagramApp.controller('viewAllController', function($scope, $http) {
 	$scope.pageClass = 'page-view-all';
 	$scope.isLoading = true;
 	$scope.isError = false;
-
 	$scope.collections = [];
 
 
@@ -100,6 +111,12 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 
 	//Initialize controller on load
 	doInit(this);
+
+	window.onscroll = function(ev) {
+		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+			console.log('goof doof');
+		}
+	};
 });
 
 //Create Controller
@@ -132,5 +149,113 @@ instagramApp.controller('createController', function($scope, $http, $window) {
 				$scope.isError = true;
 
 			});
+
+
+	};
+
+	$scope.startDate = new Date();
+	$scope.endDate = new Date();
+
+	$scope.setMaxDate = function() {
+		// no min date
+		$scope.dateOptions.minDate = null;
+
+		//Set max date to right now
+		var maxDate = new Date();
+		$scope.dateOptions.maxDate = maxDate;
+	};
+
+	$scope.dateOptions = {
+		showWeeks: false,
+		startingDay: 0
+	};
+
+	$scope.setMaxDate();
+
+	// Disable weekend selection
+	$scope.disabled = function(calendarDate, mode) {
+		return;
+	};
+
+	$scope.open = function($event, opened) {
+		$event.preventDefault();
+		$event.stopPropagation();
+		$scope.dateOpened = true;
+	};
+
+	$scope.startOpened = false;
+	$scope.endOpened = false;
+
+	$scope.hourStep = 1;
+	$scope.format = "dd-MMM-yyyy";
+	$scope.minuteStep = 15;
+
+	$scope.timeOptions = {
+		hourStep: [1, 2, 3],
+		minuteStep: [1, 5, 10, 15, 25, 30]
+	};
+
+	$scope.showMeridian = true;
+	$scope.timeToggleMode = function() {
+		$scope.showMeridian = !$scope.showMeridian;
+	};
+
+	$scope.$watch("date", function(date) {
+		// read date value
+	}, true);
+
+	$scope.resetHours = function() {
+		$scope.date.setHours(1);
+	};
+});
+
+//This directive provides a simple template for showing a loader across our views with the <loader/> tag
+instagramApp.directive('loader', function() {
+	return {
+		restrict: 'E', //<loader/> to call the directive
+		scope: {
+			show: '=' //HTML attribute to control whether to display the directive or not
+		},
+		template: '<div ng-if="show" class="loader center">' +
+			'<i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>' +
+			'</div>',
+		link: function($scope, elem, attr) {}
+	};
+});
+
+//This directive provides a simple template for showing an "error" message across our views with the <error/> tag
+instagramApp.directive('error', function() {
+	return {
+		restrict: 'E', //<error/> to call the directive
+		scope: {
+			show: '=' //HTML attribute to control whether to display the directive or not
+		},
+		template: '<div ng-if="show">' +
+			'<h1>ERROR</h1>' +
+			'</div>',
+		link: function($scope, elem, attr) {}
+	};
+});
+
+//This directive provides a simple template for showing an "empty" message across our views with the <empty/> tag
+instagramApp.directive('empty', function() {
+	return {
+		restrict: 'E', // <empty/> to call the directive
+		scope: {
+			show: '=' //HTML attribute to control whether to display the directive or not
+		},
+		template: '<div ng-if="show" class="empty center">' +
+			'Empty :(' +
+			'</div>',
+		link: function($scope, elem, attr) {}
+	};
+});
+
+//This directive provides a back button
+instagramApp.directive('backButton', function() {
+	return {
+		restrict: 'E', // <back-button/> to call the directive
+		template: '<button onclick="history.back()" class="btn btn-lg btn-default text-right landing-button"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back</button>',
+		link: function($scope, elem, attr) {}
 	};
 });

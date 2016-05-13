@@ -69,6 +69,15 @@ html {}
 
 .loader {
 	font-size: 10em;
+	/*-webkit-animation: loader-fade-in-out 3s infinite;
+  animation: loader-fade-in-out 3s infinite;*/
+}
+
+
+@keyframes loader-fade-in-out {
+		0%   {opacity: 1;}
+    50%  {opacity: 0.5;}
+    100% {opacity: 1;}
 }
 
 .empty {
@@ -97,6 +106,60 @@ html {}
 	width: 80%;
 }
 
-.label-tag{
+.label-tag {
 	margin:1px 1px;
+}
+
+.modal-section {
+	margin: 5px 0px;
+	word-wrap: break-word;
+}
+
+.vertical-center-parent{
+  position: relative;
+}
+
+.vertical-center {
+  transform: translateY(50%);
+}
+
+.user-full-name {
+	color: white;
+}
+
+/* Landing */
+.landing-button {}
+
+.landing-button-group {
+	margin-top: 50px;
+}
+
+/* View All */
+.wrap {
+	word-wrap: break-word;
+}
+
+/* DATE TIME PICKER FROM  https://github.com/zhaber/angular-js-bootstrap-datetimepicker/ */
+.datetimepicker-wrapper {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.datetimepicker-wrapper > input {
+  margin-bottom: 0 !important;
+  width: 130px;
+}
+
+.datetimepicker-wrapper [ng-model=hours],
+.datetimepicker-wrapper [ng-model=minutes] {
+  width: 60px !important;
+}
+
+.create-input-tag {
+	margin-top: 40px;
+	height: 40px;
+}
+
+.create-button {
+	margin-top: 50px;
 }
