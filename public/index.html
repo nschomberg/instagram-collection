@@ -10,7 +10,7 @@
 	<link data-require="font-awesome@*" data-semver="4.1.0" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="/stylesheets/main.css">
 
-	<!-- JS -->
+	<!-- JS (Vendor) -->
 	<script src="/js/vendor/angular.min.js"></script>
 	<script src="/js/vendor/angular-route.min.js"></script>
 	<script src="/js/vendor/angular-animate.min.js"></script>
@@ -18,6 +18,7 @@
 	<script src="/js/vendor/bootstrap.min.js"></script>
 	<script src="/js/vendor/ui-bootstrap-tpls-1.3.2.min.js"></script>
 	<script src="/js/vendor/datetimepicker.js"></script>
+	<!-- JS (App) -->
 	<script src="js/app.js"></script>
 
 </head>
@@ -29,21 +30,29 @@
 		<div class="container-fluid">
 	    <div class="navbar-header">
 	      <a class="navbar-brand" href="#/">Instagram Collections</a>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
 			</div>
-			<ul class="nav navbar-nav">
-				<li ng-class="{active: isActive(['/all','/view'])}">
-					<a href="#all">
-						<i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;
-						View All
-					</a>
-				<li>
-				<li ng-class="{active: isActive(['/create'])}">
-					<a href="#create">
-						<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-						Create New
-					</a>
-				<li>
-			</ul>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li ng-class="{active: isActive(['/all','/view'])}">
+						<a href="#all">
+							<i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;
+							View All
+						</a>
+					<li>
+					<li ng-class="{active: isActive(['/create'])}">
+						<a href="#create">
+							<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+							Create New
+						</a>
+					<li>
+				</ul>
+			</div>
 		</div>
 	</nav>
 

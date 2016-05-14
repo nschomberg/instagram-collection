@@ -1,8 +1,14 @@
 'use strict';
 
+/**
+ * This is the entry point for the app.
+ * This module spins up an API on an Express server and defers all logic to appropriate service classes
+ */
+
 //Load the Database Service class
 let database = require('./lib/database-service.js');
 database.init();
+//database.deleteCollection({}); // refresh script
 
 //Set up the app to use the Express module
 let express = require('express');
@@ -33,9 +39,7 @@ app.get('/api/collections', function(request, response) {
 
 //API: POST new collection
 app.post('/api/create', function(request, response) {
-	console.log('ENTER');
 	database.createCollection(request, response);
-	console.log('EXIT');
 });
 
 //Spin up server

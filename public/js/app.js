@@ -1,5 +1,6 @@
 var instagramApp = angular.module('instagramApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 
+
 //Here, let's define some routes for the single page-app
 instagramApp.config(function($routeProvider) {
 	$routeProvider
@@ -134,7 +135,9 @@ instagramApp.controller('createController', function($scope, $http, $window) {
 				method: 'POST',
 				url: '/api/create',
 				data: {
-					'tag': $scope.tag.value
+					'tag': $scope.tag.value,
+					'time_start': $scope.dates.startDate,
+					'time_end': $scope.dates.endDate
 				}
 			})
 			.then(function success(response) { // this callback will be called asynchronously when the response is available
@@ -153,50 +156,55 @@ instagramApp.controller('createController', function($scope, $http, $window) {
 
 	};
 
-	//Set default to between now and yesterday
-	$scope.startDate = new Date();
-	$scope.startDate.setDate($scope.startDate.getDate()-1);
-	$scope.endDate = new Date();
+	//Set up default dates in dates object
+	$scope.dates = {};
 
-	$scope.setMaxDate = function() {
-		// no min date
-		$scope.dateOptions.minDate = null;
+	//Default start set to yesterday
+	$scope.dates.startDate = new Date();
+	$scope.dates.startDate.setDate($scope.dates.startDate.getDate() - 1);
 
-		//Set max date to right now
-		var maxDate = new Date();
-		$scope.dateOptions.maxDate = maxDate;
-	};
+	//Default end set to now
+	$scope.dates.endDate = new Date();
 
+	//Date picker options
 	$scope.dateOptions = {
 		showWeeks: false,
 		startingDay: 0
 	};
 
+	//Set disabled dates on the calendar
+	$scope.setMaxDate = function() {
+		//No restriction on how far back of a date you can pick
+		$scope.dateOptions.minDate = null;
+
+		//Set max date restriction to right now
+		var maxDate = new Date();
+		$scope.dateOptions.maxDate = maxDate;
+	};
 	$scope.setMaxDate();
 
-	// Disable weekend selection
+	//Date picker options - no disabled days
 	$scope.disabled = function(calendarDate, mode) {
 		return;
 	};
 
+	//Date picker options - event bindings
 	$scope.open = function($event, opened) {
 		$event.preventDefault();
 		$event.stopPropagation();
 		$scope.dateOpened = true;
 	};
-
 	$scope.startOpened = false;
 	$scope.endOpened = false;
 
+	//Date picker options - misc (for more info: https://github.com/zhaber/angular-js-bootstrap-datetimepicker/)
 	$scope.hourStep = 1;
 	$scope.format = "dd-MMM-yyyy";
 	$scope.minuteStep = 15;
-
 	$scope.timeOptions = {
 		hourStep: [1, 2, 3],
 		minuteStep: [1, 5, 10, 15, 25, 30]
 	};
-
 	$scope.showMeridian = true;
 	$scope.timeToggleMode = function() {
 		$scope.showMeridian = !$scope.showMeridian;
