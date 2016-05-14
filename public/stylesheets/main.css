@@ -1,7 +1,9 @@
 /* General Styling */
 html {}
 
-.page	{}
+.page	{
+	margin-top: 50px;
+}
 
 .page h1 {}
 
@@ -89,12 +91,14 @@ html {}
   margin-top: 100%;
 }
 .tile-content {
-	-webkit-transition: all 0.5s;
-  transition: all 0.5s;
+	-webkit-transition: all 0.4s;
+  transition: all 0.4s;
 }
 
 .tile-content:hover{
 	box-shadow: 0px 0px 20px white;
+	/*transform:scale(1.05,1.05);*/
+	/*z-index:10;*/
 }
 
 .tile-container {
@@ -103,7 +107,7 @@ html {}
 
 /* Collection Modal */
 .collection-modal {
-	width: 80%;
+	width: 70%;
 }
 
 .label-tag {

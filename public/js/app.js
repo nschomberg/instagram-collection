@@ -153,7 +153,9 @@ instagramApp.controller('createController', function($scope, $http, $window) {
 
 	};
 
+	//Set default to between now and yesterday
 	$scope.startDate = new Date();
+	$scope.startDate.setDate($scope.startDate.getDate()-1);
 	$scope.endDate = new Date();
 
 	$scope.setMaxDate = function() {
