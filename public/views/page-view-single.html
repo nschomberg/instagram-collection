@@ -20,7 +20,12 @@
     <div class="col-xs-6 col-sm-3 col-md-2 tile-container" ng-repeat="content in contents" >
       <a href="" data-toggle="modal" data-target="#myModal" ng-click="selectedContent.content = content">
         <div class="tile-content">
-          <img src="{{content.images.low_resolution.url}}" alt="Post Removed" class="img-responsive">
+          <div class="">
+            <img src="{{content.images.low_resolution.url}}" alt="Post Removed" class="img-responsive">
+          </div>
+          <div class="tile-play" ng-if="content.type == 'video'">
+            <i class="fa fa-play" aria-hidden="true"></i>
+          </div>
         </div>
         <!-- Dummy div to make tile square -->
         <div class="dummy">
@@ -48,9 +53,12 @@
           <div class="row">
             <!-- Full-size image -->
             <div class="col-md-7">
-              <a href="{{selectedContent.content.link}}" target="_blank">
-                <img src="{{selectedContent.content.images.standard_resolution.url}}" class="img-responsive"/>
+              <a href="{{selectedContent.content.link}}" target="_blank" ng-if="selectedContent.content.type == 'image'">
+                <img ng-src="{{selectedContent.content.images.standard_resolution.url}}" class="img-responsive"/>
               </a>
+              <video width="400" controls ng-if="selectedContent.content.type == 'video'" src="{{selectedContent.content.videos.standard_resolution.url}}">
+                Your browser does not support HTML5 video.
+              </video>
             </div>
             <!-- Right hand side content -->
             <div class="col-md-5">

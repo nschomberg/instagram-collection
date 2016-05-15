@@ -97,12 +97,20 @@ html {}
 
 .tile-content:hover{
 	box-shadow: 0px 0px 20px white;
-	/*transform:scale(1.05,1.05);*/
-	/*z-index:10;*/
 }
 
 .tile-container {
 	padding:3px 3px;
+	position: relative;
+}
+
+.tile-play {
+	z-index:1;
+	position: absolute;
+	top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+	font-size: 5em;
 }
 
 /* Collection Modal */

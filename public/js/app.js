@@ -309,7 +309,7 @@ instagramApp.directive('empty', function() {
 			show: '=' //HTML attribute to control whether to display the directive or not
 		},
 		template: '<div ng-if="show" class="empty center">' +
-			'Empty :(' +
+			'Empty :( <br/><h6><a href="" onclick="location.reload();">Reload</a></h6>' +
 			'</div>',
 		link: function($scope, elem, attr) {}
 	};
@@ -324,4 +324,24 @@ instagramApp.directive('backButton', function() {
 		template: '<button onclick="history.back()" class="btn btn-lg btn-default text-right landing-button"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;Back</button>',
 		link: function($scope, elem, attr) {}
 	};
+});
+
+
+/**
+ * Filter to allow loading from untrusted source (ie load mp4 from instagram)
+ *
+instagramApp.filter('trusted', ['$sce', function($sce) {
+	return function(url) {
+		return $sce.trustAsResourceUrl(url);
+	};
+}]);
+*/
+
+instagramApp.config(function($sceDelegateProvider) {
+	$sceDelegateProvider.resourceUrlWhitelist([
+		// Allow same origin resource loads.
+		'self',
+		// Allow loading from our assets domain.  Notice the difference between * and **.
+		'https://scontent.cdninstagram.com/**'
+	]);
 });
