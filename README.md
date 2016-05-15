@@ -25,17 +25,6 @@ Its parameters are:
 
 It will look for content tagged with the supplied tag between the supplied start and end dates.
 
-### POST - /api/create
-
-The `/api/create` endpoint will create a collection and return its database Id.
-
-Its parameters are:
-* `tag` : a valid hashtag in the form of a string, without the # prefix.
-* `time_start` : a timestamp in the form of a javascript date.
-* `time_end` : a timestamp in the form of a javascript date.
-
-It will look for content tagged with the supplied tag between the supplied start and end dates.
-
 ### GET - /api/collections
 
 The `/api/collections` endpoint retrieves collections.
