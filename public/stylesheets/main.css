@@ -86,6 +86,10 @@ html {}
 	font-size: 5em;
 }
 
+.reload {
+	margin-top:100px;
+}
+
 /* Image tiles*/
 .tile-dummy {
   margin-top: 100%;

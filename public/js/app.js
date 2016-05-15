@@ -308,8 +308,11 @@ instagramApp.directive('empty', function() {
 		scope: {
 			show: '=' //HTML attribute to control whether to display the directive or not
 		},
-		template: '<div ng-if="show" class="empty center">' +
-			'Empty :( <br/><h6><a href="" onclick="location.reload();">Reload</a></h6>' +
+		template: '<div ng-if="show">' +
+						'<div class="empty center">' +
+			'Empty :(' +
+			'</div>' +
+			'<div class="reload center"><h6><a href="" onclick="location.reload();">Reload</a></h6></div>' +
 			'</div>',
 		link: function($scope, elem, attr) {}
 	};
