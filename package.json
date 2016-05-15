@@ -19,6 +19,7 @@
 		"grunt-jsbeautifier": "0.2.12",
 		"jshint-stylish": "2.2.0",
 		"mongoose": "4.4.15",
+		"mongoose-paginate": "5.0.0",
 		"request": "2.72.0",
 		"request-promise": "3.0.0"
 	},

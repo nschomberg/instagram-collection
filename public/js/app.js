@@ -1,7 +1,12 @@
+/**
+ * This Angular app contains all the logic for running the front-end
+ */
+
 var instagramApp = angular.module('instagramApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 
-
-//Here, let's define some routes for the single page-app
+/**
+ * Routes for the single page-app
+ */
 instagramApp.config(function($routeProvider) {
 	$routeProvider
 		.when('/', {
@@ -22,9 +27,9 @@ instagramApp.config(function($routeProvider) {
 		});
 });
 
-//Here we define a couple of different controllers
-
-//Nav controller handles logic in the navbar
+/**
+ * navController handles logic in the navbar
+ */
 instagramApp.controller('navController', function($scope, $location) {
 	//Determine if the current nav element should be active based on the current URL
 	$scope.isActive = function(paths) {
@@ -37,12 +42,16 @@ instagramApp.controller('navController', function($scope, $location) {
 	};
 });
 
-//Home page controller
+/**
+ * homeController handles logic on the Home page
+ */
 instagramApp.controller('homeController', function($scope) {
 	$scope.pageClass = 'page-home';
 });
 
-//View All Controller
+/**
+ * viewAllController handles logic on the View All page
+ */
 instagramApp.controller('viewAllController', function($scope, $http) {
 	$scope.pageClass = 'page-view-all';
 	$scope.isLoading = true;
@@ -77,36 +86,73 @@ instagramApp.controller('viewAllController', function($scope, $http) {
 
 });
 
-//View Single Controller
+/**
+ * viewSingleController handles logic on the View page
+ */
 instagramApp.controller('viewSingleController', function($scope, $http, $location) {
 	$scope.pageClass = 'page-view-single';
 	$scope.isLoading = true;
+	$scope.isLoadingMore = false;
 	$scope.isError = false;
 
+	//pagination variables
+	$scope.offset = 0;
+	$scope.limit = 50;
+	$scope.page = 0;
+
+	//collection and list of content
+	$scope.collection = {};
 	$scope.contents = [];
+
+	//selected content will be displayed in the modal
 	$scope.selectedContent = {};
 	var collectionId = $location.search()
 		.collection;
 	console.log(collectionId);
+
+	var makeCallout = function() {
+		return $http({
+			method: 'GET',
+			url: '/api/collections?collection=' + collectionId + '&limit=' + $scope.limit + '&offset=' + $scope.offset
+		});
+	};
+
+	var onCalloutFinish = function(response) {
+		console.dir(response);
+		$scope.isError = false;
+		$scope.collection = response.data.collection;
+		for (var content of response.data.content.docs) {
+			$scope.contents.push(content);
+		}
+		$scope.offset = parseInt(response.data.content.offset) + parseInt(response.data.content.limit);
+		$scope.limit = response.data.content.limit;
+		$scope.total = response.data.content.total;
+	};
+
 	// Here we define the init function for the controller
 	var doInit = function(ctrl) {
 		// Make a GET request to the API to get all collections
-		$http({
-				method: 'GET',
-				url: '/api/collections?collection=' + collectionId
-			})
+		makeCallout()
 			.then(function success(response) { // this callback will be called asynchronously when the response is available
-				console.dir(response);
-				//Assign the repsonse's collection data to our scope
-				$scope.contents = response.data.result;
+				onCalloutFinish(response);
 				$scope.isLoading = false;
-				$scope.isError = false;
-				//
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
 				console.dir(response);
 				$scope.isLoading = false;
 				$scope.isError = true;
+			});
+	};
 
+	queryMore = function() {
+		$scope.isLoadingMore = true;
+		makeCallout()
+			.then(function success(response) { // this callback will be called asynchronously when the response is available
+				onCalloutFinish(response);
+				$scope.isLoadingMore = false;
+			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
+				console.dir(response);
+				$scope.isLoadingMore = false;
+				$scope.isError = true;
 			});
 	};
 
@@ -114,13 +160,15 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 	doInit(this);
 
 	window.onscroll = function(ev) {
-		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-			console.log('goof doof');
+		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !$scope.isLoadingMore && $scope.offset < $scope.total) {
+			queryMore();
 		}
 	};
 });
 
-//Create Controller
+/**
+ * createController handles logic on the Create page
+ */
 instagramApp.controller('createController', function($scope, $http, $window) {
 	$scope.pageClass = 'page-create';
 	$scope.isLoading = false;
@@ -219,7 +267,9 @@ instagramApp.controller('createController', function($scope, $http, $window) {
 	};
 });
 
-//This directive provides a simple template for showing a loader across our views with the <loader/> tag
+/**
+ * loader - directive provides a simple template for showing a loader across our views with the <loader/> tag
+ */
 instagramApp.directive('loader', function() {
 	return {
 		restrict: 'E', //<loader/> to call the directive
@@ -233,7 +283,9 @@ instagramApp.directive('loader', function() {
 	};
 });
 
-//This directive provides a simple template for showing an "error" message across our views with the <error/> tag
+/**
+ * error - directive provides a simple template for showing an "error" message across our views with the <error/> tag
+ */
 instagramApp.directive('error', function() {
 	return {
 		restrict: 'E', //<error/> to call the directive
@@ -247,7 +299,9 @@ instagramApp.directive('error', function() {
 	};
 });
 
-//This directive provides a simple template for showing an "empty" message across our views with the <empty/> tag
+/**
+ * empty - directive provides a simple template for showing an "empty" message across our views with the <empty/> tag
+ */
 instagramApp.directive('empty', function() {
 	return {
 		restrict: 'E', // <empty/> to call the directive
@@ -261,7 +315,9 @@ instagramApp.directive('empty', function() {
 	};
 });
 
-//This directive provides a back button
+/**
+ * backButton - directive provides a back button with the <back-button/> tag
+ */
 instagramApp.directive('backButton', function() {
 	return {
 		restrict: 'E', // <back-button/> to call the directive

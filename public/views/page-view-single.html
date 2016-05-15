@@ -1,4 +1,4 @@
-<h1>Collections <small> {{collection.name}}</small></h1>
+<h1>Collections <small> {{collection.tag}}</small></h1>
 
 <!-- Top nav elements-->
 <h2>
@@ -28,6 +28,12 @@
       </a>
     </div>
   </div>
+  <!-- "Loading More" popup -->
+  <div class="navbar navbar-default navbar-fixed-bottom" ng-show="isLoadingMore" >
+    <div class="text-center">
+      <h3><i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>&nbsp;Looking for more content</h3>
+    </div>
+  </div>
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog collection-modal" role="document">
@@ -35,7 +41,7 @@
         <!-- Header -->
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">{{selectedContent.content.user.full_name}}'s post about {{collection.name}}</h4>
+          <h4 class="modal-title" id="myModalLabel">{{selectedContent.content.user.full_name}}'s post about {{collection.tag}}</h4>
         </div>
         <!-- Body -->
         <div class="modal-body">
