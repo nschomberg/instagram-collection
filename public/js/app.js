@@ -67,14 +67,14 @@ instagramApp.controller('viewAllController', function($scope, $http) {
 				url: '/api/collections'
 			})
 			.then(function success(response) { // this callback will be called asynchronously when the response is available
-				console.dir(response);
+				//console.dir(response);
 				//Assign the repsonse's collection data to our scope
 				$scope.collections = response.data.result;
 				$scope.isLoading = false;
 				$scope.isError = false;
 				//
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
-				console.dir(response);
+				//console.dir(response);
 				$scope.isLoading = false;
 				$scope.isError = true;
 			});
@@ -108,7 +108,7 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 	$scope.selectedContent = {};
 	var collectionId = $location.search()
 		.collection;
-	console.log(collectionId);
+	//console.log(collectionId);
 
 	var makeCallout = function() {
 		return $http({
@@ -118,7 +118,7 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 	};
 
 	var onCalloutFinish = function(response) {
-		console.dir(response);
+		//console.dir(response);
 		$scope.isError = false;
 		$scope.collection = response.data.collection;
 		for (var content of response.data.content.docs) {
@@ -137,7 +137,7 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 				onCalloutFinish(response);
 				$scope.isLoading = false;
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
-				console.dir(response);
+				//console.dir(response);
 				$scope.isLoading = false;
 				$scope.isError = true;
 			});
@@ -150,7 +150,7 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 				onCalloutFinish(response);
 				$scope.isLoadingMore = false;
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
-				console.dir(response);
+				//console.dir(response);
 				$scope.isLoadingMore = false;
 				$scope.isError = true;
 			});
@@ -189,13 +189,13 @@ instagramApp.controller('createController', function($scope, $http, $window) {
 				}
 			})
 			.then(function success(response) { // this callback will be called asynchronously when the response is available
-				console.dir(response);
+				//console.dir(response);
 				$scope.isLoading = false;
 				$scope.isError = false;
 				//Redirect to the view page for the newly created collection
 				$window.location.href = '/#view?collection=' + response.data.result;
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
-				console.dir(response);
+				//console.dir(response);
 				$scope.isLoading = false;
 				$scope.isError = true;
 
