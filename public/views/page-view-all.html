@@ -14,6 +14,7 @@
     <div class="thumbnail">
       <div class="caption text-center wrap">
         <h3>{{collection.tag}}</h3>
+        <h6>{{collection.time_start | date:'medium'}} - {{collection.time_end | date:'medium'}}</h6>
         <a href="#view?collection={{collection._id}}" class="btn btn-default btn-block" role="button">View&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></a>
       </div>
     </div>
