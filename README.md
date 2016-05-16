@@ -38,6 +38,14 @@ If supplied a collection Id, this endpoint will retrieve: a collection, some con
 
 If not supplied with a collection Id, this endpoint will return an array of collections without their content.
 
+## Grunt
+
+To run Grunt, install Grunt globally on your machine with the following command: `npm install -g grunt`.
+
+A default Grunt task has been defined to lint and beautify JS files in the project. Open your terminal at the root of this project and run `grunt` to kick off the default task.
+
+To have Grunt kick off the default task each time a JS file changes, run `grunt watch` in your terminal.
+
 ## Demo
 
 Check out a live demo of the app at http://instagram-collection.herokuapp.com/
