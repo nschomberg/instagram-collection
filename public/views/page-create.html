@@ -1,19 +1,20 @@
+<!-- Create Collection Page -->
 <h1>Collections <small> Create</small></h1>
 <back-button></back-button>
 <br/>
-<div ng-if="isLoading" class="loader center">
-  <i class="fa fa fa-gear fa-spin" aria-hidden="true"></i>
-</div>
-<div ng-if="!isLoading">
-  <!-- DEBUG
-  <pre>Start Date is: <em>{{startDate | date:'shortTime' }}, {{startDate | date:'fullDate' }}</em></pre>
-  <pre>End Date is: <em>{{endDate | date:'shortTime' }}, {{endDate | date:'fullDate' }}</em></pre>-->
 
+<!-- Directives to display common elements across views (error message, loader)-->
+<error show="isError"></error>
+<loader show="isLoading"></loader>
+
+<div ng-if="!isLoading">
   <div class="row">
+    <!-- Tag Input -->
     <div class="col-md-4 text-center">
       <h2>Select</h2>
       <input class="create-input-tag" ng-model="tag.value" class="form-control" placeholder="Enter a tag"></input>
     </div>
+    <!-- Start Date Input -->
     <div class="col-md-4 text-center">
       <h2>From</h2>
       <datetimepicker ng-model="dates.startDate"
@@ -31,6 +32,7 @@
       date-opened="startOpened"
       ></datetimepicker>
     </div>
+    <!-- End Date Input -->
     <div class="col-md-4 text-center">
       <h2>Until</h2>
       <datetimepicker ng-model="dates.endDate"
@@ -49,6 +51,7 @@
       >
       </datetimepicker>
     </div>
+    <!-- Create Button -->
     <div class="col-md-2 col-md-offset-5 text-center">
       <div class="create-button">
         <h2><a href=""  ng-click="create()" class="btn btn-primary btn-lg">Create</a></h2>

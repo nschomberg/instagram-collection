@@ -1,5 +1,5 @@
 /**
- * This Angular app contains all the logic for running the front-end
+ * This files contains all the logic for running the AngularJS front-end
  */
 
 var instagramApp = angular.module('instagramApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
@@ -82,34 +82,33 @@ instagramApp.controller('viewAllController', function($scope, $http) {
 
 	//Initialize controller on load
 	doInit(this);
-
-
 });
 
 /**
  * viewSingleController handles logic on the View page
  */
 instagramApp.controller('viewSingleController', function($scope, $http, $location) {
+	//Initialize UI vars
 	$scope.pageClass = 'page-view-single';
 	$scope.isLoading = true;
 	$scope.isLoadingMore = false;
 	$scope.isError = false;
 
-	//pagination variables
+	//Initialize pagination vars
 	$scope.offset = 0;
 	$scope.limit = 50;
 	$scope.page = 0;
 
-	//collection and list of content
+	//Initialize collection and list of content
 	$scope.collection = {};
 	$scope.contents = [];
 
-	//selected content will be displayed in the modal
+	//Get the collection Id from the URL
 	$scope.selectedContent = {};
 	var collectionId = $location.search()
 		.collection;
-	//console.log(collectionId);
 
+	//This function makes a paginated callout to the content API
 	var makeCallout = function() {
 		return $http({
 			method: 'GET',
@@ -117,19 +116,26 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 		});
 	};
 
+	//This function is intended to run when a callout finishes
 	var onCalloutFinish = function(response) {
-		//console.dir(response);
+		//Capture response data
 		$scope.isError = false;
 		$scope.collection = response.data.collection;
+
+		//Apend new content to list of content
 		for (var content of response.data.content.docs) {
 			$scope.contents.push(content);
 		}
+
+		//Set offset for next callout
 		$scope.offset = parseInt(response.data.content.offset) + parseInt(response.data.content.limit);
+
+		//Capture pagination vars
 		$scope.limit = response.data.content.limit;
 		$scope.total = response.data.content.total;
 	};
 
-	// Here we define the init function for the controller
+	// This function will be run on page-load
 	var doInit = function(ctrl) {
 		// Make a GET request to the API to get all collections
 		makeCallout()
@@ -137,20 +143,20 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 				onCalloutFinish(response);
 				$scope.isLoading = false;
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
-				//console.dir(response);
 				$scope.isLoading = false;
 				$scope.isError = true;
 			});
 	};
 
+	//This function will lazy-load more content
 	queryMore = function() {
+		//Set flag to true for UX
 		$scope.isLoadingMore = true;
 		makeCallout()
 			.then(function success(response) { // this callback will be called asynchronously when the response is available
 				onCalloutFinish(response);
 				$scope.isLoadingMore = false;
 			}, function error(response) { // called asynchronously if an error occurs or server returns response with an error status.
-				//console.dir(response);
 				$scope.isLoadingMore = false;
 				$scope.isError = true;
 			});
@@ -159,8 +165,11 @@ instagramApp.controller('viewSingleController', function($scope, $http, $locatio
 	//Initialize controller on load
 	doInit(this);
 
+	//When scrolling to the bottom of the page
 	window.onscroll = function(ev) {
-		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !$scope.isLoadingMore && $scope.offset < $scope.total) {
+		//If there is more content to load
+		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !$scope.isLoadingMore && ($scope.offset < $scope.total || !$scope.collection.isComplete)) {
+			//Query more content
 			queryMore();
 		}
 	};
@@ -200,8 +209,6 @@ instagramApp.controller('createController', function($scope, $http, $window) {
 				$scope.isError = true;
 
 			});
-
-
 	};
 
 	//Set up default dates in dates object
@@ -309,7 +316,7 @@ instagramApp.directive('empty', function() {
 			show: '=' //HTML attribute to control whether to display the directive or not
 		},
 		template: '<div ng-if="show">' +
-						'<div class="empty center">' +
+			'<div class="empty center">' +
 			'Empty :(' +
 			'</div>' +
 			'<div class="reload center"><h6><a href="" onclick="location.reload();">Reload</a></h6></div>' +
@@ -329,17 +336,9 @@ instagramApp.directive('backButton', function() {
 	};
 });
 
-
 /**
- * Filter to allow loading from untrusted source (ie load mp4 from instagram)
- *
-instagramApp.filter('trusted', ['$sce', function($sce) {
-	return function(url) {
-		return $sce.trustAsResourceUrl(url);
-	};
-}]);
-*/
-
+ * config to whitelist mp4 videos from Instagram domain
+ */
 instagramApp.config(function($sceDelegateProvider) {
 	$sceDelegateProvider.resourceUrlWhitelist([
 		// Allow same origin resource loads.

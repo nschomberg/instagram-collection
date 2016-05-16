@@ -1,8 +1,5 @@
 /**
- * This Grunt file is where our tasks are defined
- *
- * TODO add grunt task for running unit tests and add to default flow
- * TODO add grunt task for generating documentation and add to default flow
+ * This Grunt file is where dev tasks are defined
  */
 
 module.exports = function(grunt) {
